@@ -9,7 +9,6 @@ import Steps from "./BookSteps"
 import Routes from "./PopularRoutes"
 import ChooseUs from "./WhyChooseUs"
 import Service from "./PopularService"
-import Hero1 from "./Hero1";
 
 
 const Home = () => {
@@ -67,7 +66,6 @@ const Home = () => {
 
       <Header />
       {/* <Hero ref={heroFormRef} preselectedCar={preselectedCar} /> */}
-      <Hero1 />
       <Cars featuredCarSection={featuredCarSection} handleRentNowClick={handleScrollToForm} />
       <Steps />
       <Service />
