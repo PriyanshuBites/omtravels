@@ -85,7 +85,7 @@ const Routes = () => {
               Whatsapp
             </button>
             <button
-              onClick={() => callNow("917440913040")}
+              onClick={() => callNow("919826327078")}
               type="submit"
               className="flex justify-around mx-2 items-center w-[150px] py-2 px-4 bg-yellow-400 text-black font-semibold rounded-md shadow-sm hover:bg-yellow-500 focus:outline-none"
             >
