@@ -9,6 +9,8 @@ import Steps from "./BookSteps"
 import Routes from "./PopularRoutes"
 import ChooseUs from "./WhyChooseUs"
 import Service from "./PopularService"
+import Hero1 from "./Hero1";
+import Testing from "./test"
 
 
 const Home = () => {
@@ -65,13 +67,16 @@ const Home = () => {
     <>
 
       <Header />
+      <Hero1/>
       {/* <Hero ref={heroFormRef} preselectedCar={preselectedCar} /> */}
       <Cars featuredCarSection={featuredCarSection} handleRentNowClick={handleScrollToForm} />
       <Steps />
       <Service />
-      <ChooseUs />
+      <ChooseUs />  
       <Testi />
       <Routes />
+      {/* <Testing /> */}
+
       <Footer />
 
     </>
@@ -79,3 +84,9 @@ const Home = () => {
 }
 
 export default Home
+
+
+
+// bg-gradient-to-r from-blue-900/80 via-blue-900/60 to-blue-900/80
+
+// bg-[#e9efff]

@@ -1,45 +1,101 @@
-import React from 'react'
-import { HashLink } from 'react-router-hash-link'
-import styled from "styled-components"
-import img1 from "../../public/images/servicetour.jpg"
+import React from "react";
+import { HashLink } from "react-router-hash-link";
+import styled from "styled-components";
+import img1 from "../../public/images/servicetour.jpg";
 
 // const Header2 = (props) => {
-const Header2 = ({heading , para , bgimage,  scrolltoid}) => {
+const Header2 = ({ heading, para, bgimage, scrolltoid }) => {
+  return (
+    <Container>
+      <div
+        className="headerhero relative mt-16 md:mt-28 bg-cover bg-center h-[30vh] md:h-[40vh] "
+        // style={{ backgroundImage: `url(${props.bgimage})` }}>
+        style={{ backgroundImage: `url(${bgimage})` }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10 flex flex-col justify-center items-center h-full text-white text-center">
+          {/* <h1 className="text-4xl lg:text-6xl font-bold">{props.heading}</h1> */}
+          <h1 className="heading md:mb-24 text-2xl md:text-4xl lg:text-6xl font-bold">
+            {heading}
+          </h1>
+          {/* <p className="mt-4 text-lg lg:text-2xl">{props.para}</p> */}
+          <p className="paragraph mt-4 mx-2 text-lg lg:text-2xl">{para}</p>
 
-    return (
-        <Container>
+          {/* when 1 page in use - */}
 
-            <div className="relative bg-cover bg-center h-[600px]"
-                // style={{ backgroundImage: `url(${props.bgimage})` }}>
-                style={{ backgroundImage: `url(${bgimage})` }}>
-                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-                <div className="relative z-10 flex flex-col justify-center items-center h-full text-white text-center">
-                    {/* <h1 className="text-4xl lg:text-6xl font-bold">{props.heading}</h1> */}
-                    <h1 className="text-4xl lg:text-6xl font-bold">{heading}</h1>
-                    {/* <p className="mt-4 text-lg lg:text-2xl">{props.para}</p> */}
-                    <p className="mt-4 text-lg lg:text-2xl">{para}</p>
+          {/* <a href='#our-story' className="mt-8 px-6 py-3 bg-[#339af0] text-white font-semibold rounded-[15px] hover:bg-blue-500 transition"> */}
 
-                    {/* when 1 page in use - */}
+          {/* when 2 or more page in use - */}
 
-                    {/* <a href='#our-story' className="mt-8 px-6 py-3 bg-[#339af0] text-white font-semibold rounded-[15px] hover:bg-blue-500 transition"> */}
-
-                    {/* when 2 or more page in use - */}
-
-                    <HashLink to={`#${scrolltoid}`} className="mt-8 px-6 py-3 bg-[#339af0] text-white font-semibold rounded-[15px] hover:bg-blue-500 transition">
-                        Learn More
-                    </HashLink>
-                </div>
-            </div>
-        </Container>
-    )
-}
+          <HashLink
+            to={`#${scrolltoid}`}
+            className="learnmore md:mt-12 px-4 py-2 md:px-6 md:py-3 bg-yellow-400 text-black font-semibold rounded-[15px] hover:bg-yellow-500 transition"
+          >
+            Learn More
+          </HashLink>
+        </div>
+      </div>
+    </Container>
+  );
+};
 
 export default Header2;
 
 const Container = styled.div`
 
 
+@media (min-width: 355px) and (max-width: 360px){
 
+ .learnmore {
+    font-size: 12px
+  }
+
+
+} 
+
+
+@media (max-width: 375px) {
+
+  .learnmore {
+    margin-top: 10px
+  }
+    .heading {
+    margin-top: 18px;
+    }
+}
+
+
+@media (min-width: 376px) and (max-width: 760px){
+
+  .learnmore {
+    margin-top: 28px
+  }
+
+}
+
+
+@media only screen 
+and (device-width: 1024px) 
+and (device-height: 600px)  {
+  
+  .headerhero {
+    height: 80vh;
+  }
+
+}
+
+
+@media (min-width: 1280px) {
+
+ .headerhero {
+    height: 65vh;
+  }
+
+}
+
+
+
+// ...........................................
 
 {/* <div className="box relative border-none h-[500px] mt-28">
 <div className="absolute inset-0 bg-black bg-opacity-50"></div>

@@ -1,261 +1,234 @@
-import React, { useState, useEffect } from "react";
-import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Client1 from "../../public/images/client1.png"
-import Client2 from "../../public/images/client2.png"
-import Client3 from "../../public/images/client3.png"
+import { useEffect, useState } from "react";
+import Client1 from "../../public/images/client1.png";
+import Client2 from "../../public/images/client2.png";
+import Client3 from "../../public/images/client3.png";
+import { FaQuoteLeft } from "react-icons/fa";
 
 const testimonials = [
   {
-    id: 1,
-    Client: Client1,
     name: "Kavyansh Gupta",
-    quote:
-      "Amazing Nature of the Agent. Service also good",
-    designation: "Client",
-    stars: 5,
+    review: "Amazing Nature of the Agent. Service also good",
+    rating: 5,
+    image: Client1,
   },
   {
-    id: 2,
-    Client: Client2,
     name: "Vicky Lakhera",
-    quote:
-      "Best Service",
-    designation: "Client",
-    stars: 4,
+    review: "Best Service, booking was easy and pricing fair.",
+    rating: 5,
+    image: Client2,
   },
   {
-    id: 3,
-    Client: Client3,
     name: "Rinku Rajput",
-    quote:
-      "Great Work! Fare Prices and also Nice Driver",
-    designation: "Client",
-    stars: 5,
+    review: "Nice driver, on-time pickup and clean car.",
+    rating: 4,
+    image: Client3,
   },
 ];
 
-const TestimonialSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function Testimonials() {
+  const [active, setActive] = useState(0);
+  const [startX, setStartX] = useState(0); // 👈 added
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 5000); // Change slide every 5 seconds
-
+      setActive((prev) => (prev + 1) % testimonials.length);
+    }, 3500);
     return () => clearInterval(timer);
   }, []);
 
-  const goToPrevious = () => {
-    setCurrentIndex(
-      currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1
-    );
+  // 👇 added swipe handlers
+  const handleTouchStart = (e) => {
+    setStartX(e.touches[0].clientX);
   };
 
-  const goToNext = () => {
-    setCurrentIndex((currentIndex + 1) % testimonials.length);
+  const handleTouchEnd = (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (diff > 50) {
+      setActive((prev) => (prev + 1) % testimonials.length);
+    } else if (diff < -50) {
+      setActive((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    }
   };
 
-  const renderStars = (num) => {
-    return Array(num)
-      .fill(0)
-      .map((_, i) => (
-        <span key={i} className="text-yellow-500 text-2xl">
-          &#9733;
-        </span>
-      ));
+  const getStyle = (index) => {
+    const diff = index - active;
+
+    if (diff === 0) return "translate-x-0 scale-100 opacity-100 blur-0 z-20";
+
+    if (diff === -1 || diff === testimonials.length - 1)
+      return "-translate-x-[260px] scale-90 opacity-40 blur-sm z-10";
+
+    if (diff === 1 || diff === -(testimonials.length - 1))
+      return "translate-x-[260px] scale-90 opacity-40 blur-sm z-10";
+
+    return "opacity-0";
   };
 
   return (
-    // <div className="relative bg-gradient-to-r from-[#e9efff] via-[#b2c4ff] to-[#e9efff] py-10 px-5">
-    // <div className="relative bg-gradient-to-r from-[#E2E8F0] via-[#94A3B8] to-[#E2E8F0] py-10 px-5">
-    <div className="relative bg-[#e9efff] py-10 px-5">
-      <h2 className="text-center text-3xl lg:text-4xl font-bold text-gray-800 mb-10">
-        - What Our Clients Say -
-      </h2>
+    // <section className="relative py-14 bg-gradient-to-r from-[#e9efff] via-[#b2c4ff] to-[#e9efff] overflow-hidden">
+    // <section className="relative py-14 bg-gradient-to-r from-[#0b1c3a]/90 via-[#0b1c3a]/70 to-[#0b1c3a]/90 overflow-hidden">
+    <section className="relative py-14 bg-black overflow-hidden">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-center mb-12">
+          <div className="flex-grow h-[1px] bg-white"></div>
 
-      <div className="relative overflow-hidden max-w-6xl mx-auto">
-        {/* Arrows */}
-        <button
-          onClick={goToPrevious}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-gray-600 p-3 rounded-full shadow-lg z-10 focus:outline-none"
-        >
-          <FaChevronLeft size={20} />
-        </button>
+          <h2 className="px-4 text-2xl sm:text-3xl xl:text-4xl font-bold text-white">
+            What Our <span className="text-yellow-400">Customer Says</span> 
+          </h2>
 
-        {/* Testimonial Slider */}
-        <div className="flex transition-transform duration-700 ease-in-out"
-          style={{
-            transform: `translateX(-${currentIndex * 100}%)`,
-          }}
+          <div className="flex-grow h-[1px] bg-white"></div>
+        </div>
+        {/* 👇 swipe enabled here */}
+        <div
+          className="relative h-[260px] md:h-[360px] flex justify-center items-center"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((item, index) => (
             <div
-              key={testimonial.id}
-              className={`min-w-full flex-shrink-0 flex justify-center items-center`}
+              key={index}
+              className={`absolute transition-all duration-700 ease-in-out
+              bg-[#e9efff] md:rounded-2xl shadow-xl px-6 w-[90%] sm:w-[560px] h-[220px]
+              ${getStyle(index)}
+            `}
             >
-              <div className="bg-gradient-to-r from-[#fef6e4] via-[#fcd5ce] to-[#fef6e4] rounded-xl p-8 shadow-lg flex flex-col items-center w-[80%] lg:w-[60%] relative">
+              <FaQuoteLeft className="absolute -top-8 -left-4 text-6xl md:text-[80px] leading-none text-gray-700 opacity-50" />
 
-                <FaQuoteLeft className="text-pink-500 text-5xl mb-5 absolute top-4 left-4" />
-                <img src={testimonial.Client} alt="client photo" className="w-20 h-20 rounded-full object-cover mb-4" />
+              <p className="text-gray-600 md:text-xl font-semibold my-10 text-center">
+                “{item.review}”
+              </p>
 
-                <p className="text-gray-600 text-center mb-5">"{testimonial.quote}"</p>
-                <h4 className="text-lg font-semibold">{testimonial.name}</h4>
-                <p className="text-sm text-gray-500 mb-4">{testimonial.designation}</p>
-                <div className="flex">{renderStars(testimonial.stars)}</div>
+              <div className="flex items-center justify-center gap-5">
+                <img src={item.image} className="w-14 h-14 rounded-full" />
+                <div>
+                  <h4 className="font-semibold text-gray-800">{item.name}</h4>
+                  <div className="flex justify-center my-1 md:my-2">
+                    {[...Array(item.rating)].map((_, i) => (
+                      <span key={i} className="text-yellow-400 text-2xl">
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Right Arrow */}
-        <button
-          onClick={goToNext}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-gray-600 p-3 rounded-full shadow-lg z-10 focus:outline-none"
-        >
-          <FaChevronRight size={20} />
-        </button>
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className={`h-[3px]  rounded-full transition-all duration-500
+              ${active === i ? "w-10 md:w-20 bg-white" : "w-4 bg-white/40"}`}
+            />
+          ))}
+        </div>
       </div>
-
-      {/* Dots */}
-      <div className="flex justify-center mt-5">
-        {testimonials.map((_, index) => (
-          <div
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 mx-1 rounded-full ${currentIndex === index ? "bg-white" : "bg-gray-400"
-              } cursor-pointer`}
-          ></div>
-        ))}
-      </div>
-    </div>
+    </section>
   );
-};
-
-export default TestimonialSlider;
-
-
-
-
-// .................................................................
-
-
-
-// import React, { useState, useEffect } from "react";
-// import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+}
 
 // const testimonials = [
 //   {
-//     id: 1,
-//     name: "John Doe",
-//     quote:
-//       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.",
-//     designation: "Software Engineer",
-//     stars: 5,
+//     name: "Kavyansh Gupta",
+//     city: "Delhi",
+//     review: "Amazing Nature of the Agent. Service also good",
+//     rating: 5,
+//     image: Client1,
 //   },
 //   {
-//     id: 2,
-//     name: "Jane Smith",
-//     quote:
-//       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.",
-//     designation: "Project Manager",
-//     stars: 4,
+//     name: "Vicky Lakhera",
+//     city: "Jaipur",
+//     review:
+//       "Best Service, Booking was easy and pricing was fair. Highly recommended.",
+//     rating: 5,
+//     image: Client3,
 //   },
 //   {
-//     id: 3,
-//     name: "Alice Johnson",
-//     quote:
-//       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.",
-//     designation: "Designer",
-//     stars: 5,
+//     name: "Rinku Rajput",
+//     city: "Agra",
+//     review:
+//       "Great Work! Fare Prices and also Nice Driver, On-time pickup and well-maintained vehicle. Loved it!",
+//     rating: 4,
+//     image: Client2,
 //   },
 // ];
 
-// const TestimonialSlider = () => {
-//   const [currentIndex, setCurrentIndex] = useState(0);
+// export default function Testimonials() {
+//   const [active, setActive] = useState(0);
 
 //   useEffect(() => {
-//     const timer = setInterval(() => {
-//       setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-//     }, 5000); // Change slide every 5 seconds
-
-//     return () => clearInterval(timer);
+//     const interval = setInterval(() => {
+//       setActive((prev) => (prev + 1) % testimonials.length);
+//     }, 4000);
+//     return () => clearInterval(interval);
 //   }, []);
 
-//   const goToPrevious = () => {
-//     setCurrentIndex(
-//       currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1
-//     );
-//   };
-
-//   const goToNext = () => {
-//     setCurrentIndex((currentIndex + 1) % testimonials.length);
-//   };
-
-//   const renderStars = (num) => {
-//     return Array(num)
-//       .fill(0)
-//       .map((_, i) => (
-//         <span key={i} className="text-pink-500">
-//           &#9733;
-//         </span>
-//       ));
-//   };
-
 //   return (
-//     <div className="relative bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 py-10 px-5">
-//       <h2 className="text-center text-3xl lg:text-4xl font-bold text-white mb-10">
-//         - What Our Clients Say -
-//       </h2>
+//     <section className="w-full py-16 bg-gradient-to-r from-gray-50 to-gray-100">
+//       <div className="max-w-6xl mx-auto px-4 text-center">
+//         <h2 className="text-2xl sm:text-3xl xl:text-4xl font-bold text-gray-800 mb-12">
+//           What Our Customer Says
+//         </h2>
 
-//       <div className="relative overflow-hidden max-w-6xl mx-auto">
-//         {/* Arrows */}
-//         <button
-//           onClick={goToPrevious}
-//           className="absolute left-[-30px] top-1/2 transform -translate-y-1/2 bg-white text-gray-600 p-3 rounded-full shadow-lg z-10 focus:outline-none"
-//         >
-//           <FaChevronLeft size={20} />
-//         </button>
+//         {/* Cards */}
+//         <div className="relative flex justify-center items-center bg-green-300 h-[280px] xl:h-[450px]">
+//           <div></div>
+//           <div>
+//             {testimonials.map((item, index) => {
+//               const isActive = index === active;
 
-//         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 transition-transform duration-1000 transform">
-//           {testimonials.map((testimonial, index) => (
-//             <div
-//               key={testimonial.id}
-//               className={`transition-opacity duration-1000 ${
-//                 currentIndex === index ? "opacity-100" : "opacity-0"
-//               } bg-white rounded-xl p-8 shadow-lg flex flex-col items-center`}
-//             >
-//               <FaQuoteLeft className="text-pink-500 text-5xl mb-5" />
-//               <p className="text-gray-600 text-center mb-5">{testimonial.quote}</p>
-//               <h4 className="text-lg font-semibold">{testimonial.name}</h4>
-//               <p className="text-sm text-gray-500 mb-4">{testimonial.designation}</p>
-//               <div className="flex">{renderStars(testimonial.stars)}</div>
-//             </div>
-//           ))}
+//               return (
+//                 <div
+//                   key={index}
+//                   className={`absolute transition-all duration-500 ease-in-out
+//                 ${
+//                   isActive
+//                     ? "scale-100 opacity-100 z-20"
+//                     : "scale-90 opacity-40 z-10"
+//                 }
+//                 bg-white rounded-2xl shadow-lg lg:p-12 p-6 w-[100%] sm:w-[380px] lg:w-[450px] bg-red-500 xl:w-[700px]`}
+//                 >
+//                   <img
+//                     src={item.image}
+//                     alt={item.name}
+//                     className="w-16 h-16 rounded-full mx-auto mb-4"
+//                   />
+
+//                   <p className="text-gray-600 text-sm mb-4">“{item.review}”</p>
+
+//                   <div className="flex justify-center mb-2">
+//                     {[...Array(item.rating)].map((_, i) => (
+//                       <span key={i} className="text-yellow-400 text-lg">
+//                         ★
+//                       </span>
+//                     ))}
+//                   </div>
+
+//                   <h4 className="font-semibold text-gray-800">{item.name}</h4>
+//                   <p className="text-xs text-gray-500">{item.city}</p>
+//                 </div>
+//               );
+//             })}
+//           </div>
 //         </div>
 
-//         {/* Right Arrow */}
-//         <button
-//           onClick={goToNext}
-//           className="absolute right-[-30px] top-1/2 transform -translate-y-1/2 bg-white text-gray-600 p-3 rounded-full shadow-lg z-10 focus:outline-none"
-//         >
-//           <FaChevronRight size={20} />
-//         </button>
+//         {/* Dots */}
+//         <div className="flex justify-center gap-3 mt-8">
+//           {testimonials.map((_, index) => (
+//             <button
+//               key={index}
+//               onClick={() => setActive(index)}
+//               className={`w-3 h-3 rounded-full transition-all
+//                 ${active === index ? "bg-blue-600 scale-125" : "bg-gray-400"}
+//               `}
+//             />
+//           ))}
+//         </div>
 //       </div>
-
-//       {/* Dots */}
-//       <div className="flex justify-center mt-5">
-//         {testimonials.map((_, index) => (
-//           <div
-//             key={index}
-//             onClick={() => setCurrentIndex(index)}
-//             className={`w-3 h-3 mx-1 rounded-full ${
-//               currentIndex === index ? "bg-white" : "bg-gray-400"
-//             } cursor-pointer`}
-//           ></div>
-//         ))}
-//       </div>
-//     </div>
+//     </section>
 //   );
-// };
-
-// export default TestimonialSlider;
+// }
