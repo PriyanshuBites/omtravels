@@ -1,11 +1,11 @@
 // import React, { useState } from "react";
 import React, { useState, useRef, useEffect, forwardRef } from "react";
 import axios from "axios";
-import Heroimg from "../../public/images/heroimg.png";
 import styled from "styled-components";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { MdArrowDropUp } from "react-icons/md";
-import Hero from "../../public/images/contact.jpg"
+// import Hero from "../../public/images/contact.jpg";
+import Heroimg from "../../public/images/heroimg.png";
 
 
 

@@ -4,7 +4,7 @@ import Header2 from "../Layouts/Header2";
 import Footer from "../Layouts/Footer";
 import styled from "styled-components";
 import founder from "../../public/images/photo1.jpeg";
-import manager from "../../public/images/vipin.jpg";
+// import manager from "../../public/images/vipin.jpg";
 import { Link } from "react-router-dom";
 import img1 from "../../public/images/listcar.jpg";
 
