@@ -131,7 +131,7 @@ const ServicesPage = () => {
               </p>
               <p className="text-lg">
                 <span className="font-semibold leading-[50px]">Phone</span> :
-                +91 9098835115
+                +91 7999300744
               </p>
               <p className="text-lg">
                 <span className="font-semibold leading-[50px]">Email</span> :

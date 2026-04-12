@@ -5,6 +5,8 @@ import img3 from "../../public/images/innovacar.png";
 import img4 from "../../public/images/swiftdezire.png";
 import img5 from "../../public/images/taveraimage.png";
 import img6 from "../../public/images/newtempo.jpg";
+import img7 from "../../public/images/urbania3.png";
+import img8 from "../../public/images/ertiga1.png";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { BsPeople } from "react-icons/bs";
@@ -33,7 +35,16 @@ const Cars = React.forwardRef(
         model: "2020",
         seater: 4,
         rate: 11,
-        fuel: "deisel/petrol",
+        fuel: "diesel/petrol",
+        air: "ac",
+      },
+      {
+        image: img8,
+        name: "Ertiga",
+        model: "2018",
+        seater: 6,
+        rate: 13,
+        fuel: "diesel",
         air: "ac",
       },
       {
@@ -42,7 +53,7 @@ const Cars = React.forwardRef(
         model: "2015",
         seater: 7,
         rate: 14,
-        fuel: "deisel",
+        fuel: "diesel",
         air: "ac",
       },
       {
@@ -51,7 +62,7 @@ const Cars = React.forwardRef(
         model: "2015",
         seater: 7,
         rate: 14,
-        fuel: "deisel",
+        fuel: "diesel",
         air: "ac",
       },
       {
@@ -60,7 +71,7 @@ const Cars = React.forwardRef(
         model: "2021",
         seater: 7,
         rate: 18,
-        fuel: "deisel",
+        fuel: "diesel",
         air: "ac",
       },
       {
@@ -69,7 +80,7 @@ const Cars = React.forwardRef(
         model: "2012",
         seater: 8,
         rate: 12,
-        fuel: "deisel",
+        fuel: "diesel",
         air: "ac",
       },
       {
@@ -78,7 +89,16 @@ const Cars = React.forwardRef(
         model: "2020",
         seater: "12",
         rate: 23,
-        fuel: "deisel",
+        fuel: "diesel",
+        air: "ac",
+      },
+      {
+        image: img7,
+        name: "Urbania Bus",
+        model: "2022",
+        seater: "16",
+        rate: 35,
+        fuel: "diesel",
         air: "ac",
       },
     ];
